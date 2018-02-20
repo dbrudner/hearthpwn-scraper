@@ -40,7 +40,7 @@ function Deck(name, cards, archetype, user, cost, hero) {
     this.user = user
     this.cost = cost
     this.source = 'HearthPwn'
-    this.format = 'wild'
+    this.format = 'standard'
     this.hero = hero
 }
 
@@ -52,7 +52,7 @@ app.get('/api/decks', function(req, res) {
 
 app.get("/decks/cards", function(req, res) {
     console.log('checkin')
-    request("https://www.hearthpwn.com/decks?filter-deck-tag=1&filter-show-constructed-only=y&filter-show-standard=2&page=2", function(error, response, html) {
+    request("https://www.hearthpwn.com/decks?filter-show-standard=1&filter-show-constructed-only=y&filter-deck-tag=1", function(error, response, html) {
 
         console.log('scrapin')
         var $ = cheerio.load(html);
@@ -67,9 +67,11 @@ app.get("/decks/cards", function(req, res) {
             }
         })
 
-        for (var i=0; i<results.length; i++) {request(results[i], function(error, response, html) {
+        for (var i=0; i<15; i++) {request(results[i], function(error, response, html) {
             var $ = cheerio.load(html);
 
+            var name = $('.deck-title').text()
+            console.log($('.deck-title').text())
             var archetype = $('span.deck-type').children('span').children('a').text()
             var cost = $('.craft-cost').text().trim()
             var user = $('li.name').children('a').text()
@@ -112,20 +114,30 @@ app.get("/decks/cards", function(req, res) {
             })
             
             setTimeout(function() {
-                // console.log('cards', cards)
-                // console.log(new Deck(name, cards, archetype, user, cost))
+                console.log('cards', cards)
+                console.log(new Deck(name, cards, archetype, user, cost))
 
-            if (name && cards && archetype && user && cost && hero) {
+            // if (name && cards && archetype && user && cost && hero) {
                 db.Deck.create(new Deck(name, cards, archetype, user, cost, hero))
                 .then(function(data) {
+                    console.log("New deck added")
                     console.log(data)
                 })
-                .catch(function(err) {
-                    // If an error occurred, send it to the client
-                    return res.json(err);
-                });
-            }
-            }, 8000)
+            //     .catch(function(err) {
+            //         // If an error occurred, send it to the client
+            //         return res.json(err);
+            //     });
+            // } else {
+            //     console.log('problem')
+            //     console.log(name)
+            //     console.log(cards)
+            //     console.log(archetype)
+            //     console.log(user)
+            //     console.log(cost)
+            //     console.log(hero)
+                
+            // }
+            }, 2000)
             
             })
         }
