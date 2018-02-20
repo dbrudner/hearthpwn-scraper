@@ -1,0 +1,29 @@
+{
+  "name": "scraping-homework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbrudner/scraping-homework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dbrudner/scraping-homework/issues"
+  },
+  "homepage": "https://github.com/dbrudner/scraping-homework#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mongojs": "^2.5.0",
+    "mongoose": "^5.0.3",
+    "request": "^2.83.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
