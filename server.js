@@ -40,7 +40,7 @@ function Deck(name, cards, archetype, user, cost, hero) {
     this.user = user
     this.cost = cost
     this.source = 'HearthPwn'
-    this.format = 'wild'
+    this.format = 'standard'
     this.hero = hero
 }
 
@@ -52,7 +52,7 @@ app.get('/api/decks', function(req, res) {
 
 app.get("/decks/cards", function(req, res) {
     console.log('checkin')
-    request("https://www.hearthpwn.com/decks?filter-show-standard=2&filter-show-constructed-only=y&filter-deck-tag=1", function(error, response, html) {
+    request("https://www.hearthpwn.com/decks?filter-deck-tag=1&filter-show-constructed-only=y&filter-show-standard=1&page=2", function(error, response, html) {
 
         console.log('scrapin')
         var $ = cheerio.load(html);
@@ -67,7 +67,7 @@ app.get("/decks/cards", function(req, res) {
             }
         })
 
-        for (var i=0; i<5; i++) {request(results[i], function(error, response, html) {
+        for (var i=0; i<1; i++) {request(results[i], function(error, response, html) {
             var $ = cheerio.load(html);
 
             var name = $('.deck-title').text()
